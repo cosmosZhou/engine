@@ -1,5 +1,5 @@
 # eigen
-A C++ application written for fast inference for deep learning, not for training!
+A C++ application written for sympy project, for fast short functions implementation!
 
 deployment issue:
 
