@@ -68,7 +68,7 @@ struct Literal : PyObject
         $end = search_for_mark($infix, $i, $mark);
 
         if ($end == $i) {
-            throw new RuntimeException("literal not found!");
+            throw new std::exception("literal not found!");
         }
 
         $string = \std\slice($infix, $i, $end);

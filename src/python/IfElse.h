@@ -43,7 +43,7 @@ struct IfElse : PyObject
         } else if ($old === $this->other) {
             $this->other = $new;
         } else
-            throw new RuntimeException("void replace(TreeNode old, TreeNode replacement) throws Exception");
+            throw new std::exception("void replace(TreeNode old, TreeNode replacement) throws Exception");
     }
 
     function toString()

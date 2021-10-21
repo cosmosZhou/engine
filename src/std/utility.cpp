@@ -1369,7 +1369,7 @@ vector<string> listdir(const char *dir) {
 */
 
 string dirname(const string &path){
-	int index = path.find_last_index_of("/\\");
+	int index = path.find_last_of("/\\");
 	return path.substr(0, index);
 }
 

@@ -1,6 +1,8 @@
 #include "PyObject.h"
+#include "Caret.h"
+#include "FunctionCall.h"
 
-map<string, PyObject::MFPTR> PyObject::fpntr = []() -> std::map<string,
+map<string, PyObject::MFPTR> PyObject::fpntr = []() -> map<string,
 		PyObject::MFPTR> {
 	map<string, PyObject::MFPTR> dict;
 	dict["for"] = &PyObject::append_keyword_for;
@@ -12,25 +14,28 @@ map<string, PyObject::MFPTR> PyObject::fpntr = []() -> std::map<string,
 	dict["is"] = &PyObject::append_keyword_is;
 	dict["not"] = &PyObject::append_keyword_not;
 	dict["async"] = &PyObject::append_keyword_async;
-};
+	return dict;
+}();
+
+
 
 PyObject* PyObject::append_left_parenthesis() {
 	auto self = this;
 	auto parent = self->parent;
 
 	auto caret = new Caret();
-	if (parent instanceof Dot) {
+	if (parent->instanceof("Dot") {
 		self = parent;
 		parent = self->parent;
 	}
 
-	if (parent instanceof Dot) {
-		throw new RuntimeException("parent instanceof Dot?");
+	if (parent->instanceof("Dot")) {
+		throw new std::exception("parent instanceof Dot?");
 	}
 
-	func = new FunctionCall(self, [
+	auto func = new FunctionCall(self, {
 			caret
-			], parent);
+	}, parent);
 
 	parent->replace(self, func);
 
@@ -57,24 +62,26 @@ PyObject* PyObject::append_colon(self) {
 	if (child !== null) {
 		return child->parent->append_colon(child);
 	}
-	caret = new Caret();
 
-	colon = new Colon([
+	auto caret = new Caret();
+
+	auto colon = new Colon({
 			self,
 			caret
-			], this);
+	}, this);
+
 	this->replace(self, colon);
 
 	return caret;
 }
 
 PyObject* PyObject::append_left_bracket() {
-	parent = this->parent;
+	auto parent = this->parent;
 
-	caret = new Caret();
-	func = new Indexed(this, [
+	auto caret = new Caret();
+	auto func = new Indexed(this, {
 			caret
-			], parent);
+	}, parent);
 
 	parent->replace(this, func);
 
@@ -91,21 +98,21 @@ PyObject* PyObject::append_semicolon(obj) {
 
 PyObject* PyObject::append_right_bracket() {
 	if (this->parent === null) {
-		throw new RuntimeException("this's parent is null!");
+		throw new std::exception("this's parent is null!");
 	}
 	return this->parent->append_right_bracket();
 }
 
 PyObject* PyObject::append_right_brace() {
 	if (this->parent === null) {
-		throw new RuntimeException("this's parent is null!");
+		throw new std::exception("this's parent is null!");
 	}
 	return this->parent->append_right_brace();
 }
 
 PyObject* PyObject::append_right_parenthesis() {
 	if (this->parent === null) {
-		throw new RuntimeException("this's parent is null!");
+		throw new std::exception("this's parent is null!");
 	}
 	return this->parent->append_right_parenthesis();
 }
@@ -120,7 +127,7 @@ PyObject* PyObject::append_binary_operator(InputType, child) {
 	}
 
 	if (this->parent === null) {
-		throw new RuntimeException(
+		throw new std::exception(
 				"this 's parent === null in append_binary_operator(InputType, child)");
 	}
 
@@ -314,7 +321,7 @@ PyObject* PyObject::append_keyword_if() {
 		}
 
 		if (parent === null) {
-			throw new RuntimeException("illegal this in if statement ");
+			throw new std::exception("illegal this in if statement ");
 		}
 
 		self = parent;
@@ -333,17 +340,17 @@ PyObject* PyObject::append_keyword_else() {
 			if (self === parent->cond) {
 				return parent->other;
 			}
-			throw new RuntimeException("illegal this in else statement ");
+			throw new std::exception("illegal this in else statement ");
 		}
 
 		if (parent === null) {
-			throw new RuntimeException("illegal this in else statement ");
+			throw new std::exception("illegal this in else statement ");
 		}
 
 		self = parent;
 	}
 
-	parent->replace(self, new);
+	parent->replace(self, $new);
 	return caret;
 
 }
@@ -432,7 +439,21 @@ PyObject* PyObject::append_identifier(const string &name) {
 			return literal;
 		}
 
-		throw new RuntimeException("unrecognized keyword name with " . get_class(this->parent) . " in " . __line__);
+		throw new std::exception(string("unrecognized keyword name with ") + this->parent->type() + " in " + __LINE__);
 	}
 }
 
+void PyObject::replace(PyObject *old, PyObject *$new){
+
+}
+
+string PyObject::type(){
+	return "PyObject";
+}
+
+bool instanceof(const string &type){
+	return this->type() == type;
+}
+
+PyObject::~PyObject(){
+}

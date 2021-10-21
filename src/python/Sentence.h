@@ -55,7 +55,7 @@ struct Sentence : PyObject
     {
         $i = array_search($old, $this->args, true);
         if ($i === false)
-            throw new RuntimeException("void replace(TreeNode old, TreeNode replacement) throws Exception");
+            throw new std::exception("void replace(TreeNode old, TreeNode replacement) throws Exception");
         $this->args[$i] = $new;
     }
 

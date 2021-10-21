@@ -22,7 +22,7 @@ $rhs;
 		} else if ($this->rhs === $old) {
 			$this->rhs = $new;
 		} else
-		throw new RuntimeException("void replace(TreeNode old, TreeNode replacement) throws Exception");
+		throw new std::exception("void replace(TreeNode old, TreeNode replacement) throws Exception");
 	}
 }
 ;

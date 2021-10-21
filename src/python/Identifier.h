@@ -38,13 +38,13 @@ struct Identifier : PyObject
     function append_literal(&$infix, &$i, $mark)
     {
         if (! Literal::is_literal_prefix($this->name)) {
-            throw new RuntimeException("illegal prefix $this->name before literal");
+            throw new std::exception("illegal prefix $this->name before literal");
         }
 
         $end = search_for_mark($infix, $i, $mark);
 
         if ($end == $i) {
-            throw new RuntimeException("literal not found!");
+            throw new std::exception("literal not found!");
         }
 
         $prefix_length = strlen($this->name);
@@ -52,7 +52,7 @@ struct Identifier : PyObject
 
         if (! \std\equals(substr($infix, $i, $prefix_length), $this->name)) {
 
-            throw new RuntimeException("illegal prefix $this->name before literal: $infix");
+            throw new std::exception("illegal prefix $this->name before literal: $infix");
         }
 
         $string = \std\slice($infix, $i, $end);

@@ -1,33 +1,31 @@
 #pragma once
+#include "MultiVariableOperator.h"
 
-struct MultiVariableOperator : PyObject
+MultiVariableOperator::MultiVariableOperator(vector<PyObject*> &args, PyObject *parent)
 {
+	this->args = args;
+	for (auto arg : args) {
+		arg->parent = this;
+	}
 
-    function __construct(array $args, $parent)
-    {
-        $this->args = $args;
-        foreach ($args as $arg) {
-            $arg->parent = $this;
-        }
-
-        $this->parent = $parent;
-    }
-
-    $args;
-
-    function replace($old, $new)
-    {
-        $i = array_search($old, $this->args, true);
-        if ($i === false)
-            throw new RuntimeException("void replace(TreeNode old, TreeNode replacement) throws Exception");
-        $this->args[$i] = $new;
-    }
-
-    function append_comma($child)
-    {
-        $caret = new Caret($this);
-        $this->args[] = $caret;
-        return $caret;
-    }
+	this->parent = parent;
 }
-;
+
+void MultiVariableOperator::replace(PyObject *old, PyObject *$new)
+{
+	int i = indexOf(this->args, old);
+	if (i < 0)
+		throw new std::exception("void replace(PyObject *old, PyObject *replacement)");
+	this->args[i] = $new;
+}
+
+PyObject *MultiVariableOperator::append_comma(PyObject *child)
+{
+	auto caret = new Caret(this);
+	this->args.push_back(caret);
+	return caret;
+}
+
+MultiVariableOperator::~MultiVariableOperator(){
+
+}

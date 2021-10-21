@@ -2,7 +2,9 @@
 #include <string>
 using std::string;
 #include <map>
-using std::string;
+using std::map;
+#include <vector>
+using std::vector;
 
 struct PyObject {
 	PyObject* append_left_parenthesis();
@@ -44,5 +46,11 @@ struct PyObject {
 	PyObject* append_keyword_not();
 	PyObject* append_keyword_async();
 
+	virtual void replace(PyObject *old, PyObject *$new);
+
+	virtual string type();
+	bool instanceof(const string &type);
+
+	virtual ~PyObject();
 };
 

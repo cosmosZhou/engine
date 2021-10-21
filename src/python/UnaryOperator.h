@@ -27,7 +27,7 @@ struct UnaryOperator : PyObject
         if ($this->arg === $old) {
             $this->arg = $new;
         } else
-            throw new RuntimeException("void replace(TreeNode old, TreeNode replacement) throws Exception");
+            throw new std::exception("void replace(TreeNode old, TreeNode replacement) throws Exception");
     }
 }
 ;

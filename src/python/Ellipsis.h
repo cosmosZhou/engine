@@ -1,25 +1,15 @@
 #pragma once
 
+#include "PyObject.h"
+
 struct Ellipsis : PyObject
 {
 
-    function __construct($parent)
-    {
-        $this->parent = $parent;
-    }
+    Ellipsis(PyObject *parent);
 
-    static function input_precedence()
-    {
-        return 0;
-    }
+    static int input_precedence();
 
-    static function stack_precedence()
-    {
-        return 0;
-    }
+    static int stack_precedence();
 
-    function toString()
-    {
-        return '...';
-    }
+    string toString();
 };

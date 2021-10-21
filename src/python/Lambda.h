@@ -37,7 +37,7 @@ struct Lambda : PyObject
         } else if ($old === $this->var) {
             $this->var = $new;
         } else
-            throw new RuntimeException("void replace(TreeNode old, TreeNode replacement) throws Exception");
+            throw new std::exception("void replace(TreeNode old, TreeNode replacement) throws Exception");
     }
 
     function toString()
@@ -58,7 +58,7 @@ struct Lambda : PyObject
         } else if ($child === $this->expr) {
             return parent::append_comma($child);
         } else {
-            throw new RuntimeException('illegal $child for lambda expression $this');
+            throw new std::exception('illegal $child for lambda expression $this');
         }
     }
 
@@ -67,7 +67,7 @@ struct Lambda : PyObject
         if ($self === $this->var) {
             return $this->expr;
         } else {
-            throw new RuntimeException("$this could not accept more slice args!");
+            throw new std::exception("$this could not accept more slice args!");
         }
     }
 }

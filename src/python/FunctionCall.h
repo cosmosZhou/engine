@@ -1,4 +1,5 @@
 #pragma once
+#include "MultiVariableOperator.h"
 
 struct FunctionCall : MultiVariableOperator
 {
