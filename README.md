@@ -3,7 +3,7 @@ A C++ application written for sympy project, for fast short functions implementa
 
 deployment issue:
 
-git clone --depth=1 https://github.com/cosmosZhou/eigen.git
+git clone --depth=1 https://github.com/cosmosZhou/symengine.git
 
 cd eigen
 
