@@ -1,31 +1,17 @@
 #pragma once
-#include "MultiVariableOperator.h"
+#include "PyObject.h"
 
-MultiVariableOperator::MultiVariableOperator(vector<PyObject*> &args, PyObject *parent)
+struct MultiVariableOperator : PyObject
 {
-	this->args = args;
-	for (auto arg : args) {
-		arg->parent = this;
-	}
 
-	this->parent = parent;
-}
+    MultiVariableOperator(vector<PyObject*> &args, PyObject *parent);
 
-void MultiVariableOperator::replace(PyObject *old, PyObject *$new)
-{
-	int i = indexOf(this->args, old);
-	if (i < 0)
-		throw new std::exception("void replace(PyObject *old, PyObject *replacement)");
-	this->args[i] = $new;
-}
+    vector<PyObject*> $args;
 
-PyObject *MultiVariableOperator::append_comma(PyObject *child)
-{
-	auto caret = new Caret(this);
-	this->args.push_back(caret);
-	return caret;
-}
+    void replace(PyObject *old, PyObject *$new);
 
-MultiVariableOperator::~MultiVariableOperator(){
+    PyObject *append_comma(PyObject *child);
 
-}
+    ~MultiVariableOperator();
+};
+

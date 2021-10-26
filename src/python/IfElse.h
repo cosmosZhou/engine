@@ -1,54 +1,23 @@
 // as in the form: expr if cond else other
 #pragma once
+#include "PyObject.h"
 
 struct IfElse : PyObject
 {
 
-    static function input_precedence()
-    {
-        return 0;
-    }
-
-    static function stack_precedence()
-    {
-        return 0;
-    }
+    int input_precedence();
+    int stack_precedence();
 
     // must be an identifier, or a list of identifiers
-    protected $expr;
+    PyObject *expr;
+    PyObject *cond;
+    PyObject *other;
 
-    protected $cond;
+    IfElse($expr, $cond, $other, $parent);
 
-    $other;
+    void replace(PyObject *old, PyObject *$new);
 
-    function __construct($expr, $cond, $other, $parent)
-    {
-        $this->expr = $expr;
-        $this->cond = $cond;
-        $this->other = $other;
+    string toString();
 
-        $cond->parent = $this;
-        $expr->parent = $this;
-        $other->parent = $this;
-
-        $this->parent = $parent;
-    }
-
-    function replace($old, $new)
-    {
-        if ($old === $this->expr) {
-            $this->expr = $new;
-        } else if ($old === $this->cond) {
-            $this->cond = $new;
-        } else if ($old === $this->other) {
-            $this->other = $new;
-        } else
-            throw new std::exception("void replace(TreeNode old, TreeNode replacement) throws Exception");
-    }
-
-    function toString()
-    {
-        return "$this->expr if $this->cond else $this->other";
-    }
-}
-;
+    string type();
+};

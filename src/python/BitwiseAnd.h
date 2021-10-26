@@ -1,21 +1,11 @@
 #pragma once
+#include "BinaryOperator.h"
 
 struct BitwiseAnd : BinaryOperator
 {
 
-    static function input_precedence()
-    {
-        return 12;
-    }
-
-    static function stack_precedence()
-    {
-        return 0;
-    }
-
-    function toString()
-    {
-        return "$this->lhs & $this->rhs";
-    }
-}
-;
+    int input_precedence();
+    int stack_precedence();
+    string toString();
+    string type();
+};

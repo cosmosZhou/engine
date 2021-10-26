@@ -5,6 +5,7 @@ using std::string;
 using std::map;
 #include <vector>
 using std::vector;
+#include <exception>
 
 struct PyObject {
 	PyObject* append_left_parenthesis();
@@ -52,5 +53,22 @@ struct PyObject {
 	bool instanceof(const string &type);
 
 	virtual ~PyObject();
+
+	template<typename InputType>
+	PyObject* append_binary_operator(PyObject* child) {
+		if (InputType::_input_precedence > this->stack_precedence()) {
+			auto caret = new Caret();
+			auto $new = new InputType(child, caret, this);
+
+			this->replace(child, $new);
+			return caret;
+		}
+
+		if (this->parent == nullptr) {
+			throw new std::runtime_error("this 's parent == nullptr in append_binary_operator(InputType, child)");
+		}
+
+		return this->parent->append_binary_operator<InputType>(this);
+	}
 };
 

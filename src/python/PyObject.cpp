@@ -18,13 +18,12 @@ map<string, PyObject::MFPTR> PyObject::fpntr = []() -> map<string,
 }();
 
 
-
 PyObject* PyObject::append_left_parenthesis() {
 	auto self = this;
 	auto parent = self->parent;
 
 	auto caret = new Caret();
-	if (parent->instanceof("Dot") {
+	if (parent->instanceof("Dot")) {
 		self = parent;
 		parent = self->parent;
 	}
@@ -92,46 +91,29 @@ PyObject* PyObject::append_comma(PyObject *obj) {
 	return this->parent->append_comma(this);
 }
 
-PyObject* PyObject::append_semicolon(obj) {
+PyObject* PyObject::append_semicolon(PyObject *obj) {
 	return this->parent->append_semicolon(this);
 }
 
 PyObject* PyObject::append_right_bracket() {
-	if (this->parent === null) {
+	if (this->parent == nullptr) {
 		throw new std::exception("this's parent is null!");
 	}
 	return this->parent->append_right_bracket();
 }
 
 PyObject* PyObject::append_right_brace() {
-	if (this->parent === null) {
+	if (this->parent == nullptr) {
 		throw new std::exception("this's parent is null!");
 	}
 	return this->parent->append_right_brace();
 }
 
 PyObject* PyObject::append_right_parenthesis() {
-	if (this->parent === null) {
+	if (this->parent == nullptr) {
 		throw new std::exception("this's parent is null!");
 	}
 	return this->parent->append_right_parenthesis();
-}
-
-PyObject* PyObject::append_binary_operator(InputType, child) {
-	if (InputType::input_precedence() > this->stack_precedence()) {
-		caret = new Caret();
-		new = new InputType(child, caret, this);
-
-		this->replace(child, new);
-		return caret;
-	}
-
-	if (this->parent === null) {
-		throw new std::exception(
-				"this 's parent === null in append_binary_operator(InputType, child)");
-	}
-
-	return this->parent->append_binary_operator(InputType, this);
 }
 
 PyObject* PyObject::printf() {
@@ -156,7 +138,7 @@ PyObject* PyObject::append_keyword_for() {
 			parent->replace(self, generator);
 			return var;
 		} else {
-			if (parent === null) {
+			if (parent == nullptr) {
 				break;
 			}
 			self = parent;
@@ -320,7 +302,7 @@ PyObject* PyObject::append_keyword_if() {
 			break;
 		}
 
-		if (parent === null) {
+		if (parent == nullptr) {
 			throw new std::exception("illegal this in if statement ");
 		}
 
@@ -343,7 +325,7 @@ PyObject* PyObject::append_keyword_else() {
 			throw new std::exception("illegal this in else statement ");
 		}
 
-		if (parent === null) {
+		if (parent == nullptr) {
 			throw new std::exception("illegal this in else statement ");
 		}
 
@@ -405,7 +387,7 @@ PyObject* PyObject::append_keyword_async() {
 			parent->replace(self, generator);
 			return var;
 		} else {
-			if (parent === null) {
+			if (parent == nullptr) {
 				break;
 			}
 			self = parent;
@@ -451,7 +433,7 @@ string PyObject::type(){
 	return "PyObject";
 }
 
-bool instanceof(const string &type){
+bool PyObject::instanceof(const string &type){
 	return this->type() == type;
 }
 

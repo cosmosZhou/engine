@@ -4,19 +4,12 @@
 struct FunctionCall : MultiVariableOperator
 {
 
-    static function input_precedence()
-    {
-        return 0;
-    }
+    int input_precedence();
+    int stack_precedence();
 
-    static function stack_precedence()
-    {
-        return 0;
-    }
+    string name;
 
-    protected $name;
-
-    function __construct(PyObject $name, $args, $parent)
+    FunctionCall(PyObject *name, vector<PyObject*> $args, PyObject*parent)
     {
         parent::__construct($args, $parent);
         $this->name = $name;

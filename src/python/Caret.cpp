@@ -70,13 +70,13 @@ PyObject* Caret::append_left_brace() {
 	return caret;
 }
 
-PyObject *Caret::append_unary_operator(class)
+PyObject *Caret::append_unary_operator(const string &$class)
 {
-	parent = this->parent;
+	auto parent = this->parent;
 
-	new = new class(this, parent);
+	auto $new = new $class(this, parent);
 
-	parent->replace(this, new);
+	parent->replace(this, $new);
 
 	return this;
 }
