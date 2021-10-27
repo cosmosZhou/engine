@@ -2,16 +2,7 @@
 
 struct Identifier : PyObject
 {
-
-    static function input_precedence()
-    {
-        return 0;
-    }
-
-    static function stack_precedence()
-    {
-        return 0;
-    }
+	__declare_common_interface(0, 0);
 
     protected $name;
 
@@ -30,7 +21,7 @@ struct Identifier : PyObject
         return $caret;
     }
 
-    function toString()
+    string toString()
     {
         return $this->name;
     }

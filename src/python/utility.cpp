@@ -308,7 +308,7 @@ function compile(string &infix, &state, caret = null)
                 break;
             case '-':
                 if (caret->instanceof("Caret")) {
-                    caret = caret->append_unary_operator('python\Neg');
+                    caret = caret->append_unary_operator('Neg');
                 } else {
                     if (i + 1 < strlen && infix[i + 1] == '=') {
 
@@ -622,12 +622,9 @@ function fetch_whole_sentence(caret)
     return caret;
 }
 
-function len_args(&statement, caret = null)
+int len_args(const string &statement, PyObject *caret = nullptr)
 {
-    // error_log("in " . __function__);
-    // error_log("statement = statement");
-    // error_log("caret = caret");
-    state = [];
+	CompilerState state;
 
     caret = compile(statement, state, caret);
     if (state) {
@@ -646,14 +643,14 @@ function len_args(&statement, caret = null)
         }
     }
 
-    if ((function (self) {
+    if (([](PyObject *self) -> bool {
         for (;;) {
-            parent = self->parent;
+            auto parent = self->parent;
             if (is_unfinished(parent, self)) {
                 return true;
             }
             self = parent;
-            if (parent === null) {
+            if (parent == nullptr) {
                 return false;
             }
         }
@@ -665,8 +662,8 @@ function len_args(&statement, caret = null)
     list (caret,) = sentence->args;
 
     if (caret->instanceof("Comma") || caret->instanceof("ArrayList") || caret->instanceof("Tuple")) {
-        count = count(caret->args);
-        last = end(caret->args);
+        count = caret->args.size();
+        auto last = caret->args.back();
         if (last->instanceof("Caret")) {
             -- count;
         }

@@ -19,7 +19,7 @@ struct GeneratorAsync : Generator
         parent::__construct($expr, $var, $domain, $parent);
     }
 
-    function toString()
+    string toString()
     {
         return "$this->expr async for $this->var in $this->domain";
     }

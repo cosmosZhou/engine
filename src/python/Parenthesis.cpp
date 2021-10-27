@@ -18,7 +18,7 @@ struct Parenthesis : UnaryOperator
         return $this;
     }
 
-    function toString()
+    string toString()
     {
         return "($this->arg)";
     }

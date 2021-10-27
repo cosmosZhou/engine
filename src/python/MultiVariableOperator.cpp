@@ -1,6 +1,6 @@
 #include "MultiVariableOperator.h"
 
-MultiVariableOperator::MultiVariableOperator(vector<PyObject*> &args, PyObject *parent)
+MultiVariableOperator::MultiVariableOperator(vector<PyObject*> &args, PyObject *parent):PyObject(parent)
 {
 	this->args = args;
 	for (auto arg : args) {

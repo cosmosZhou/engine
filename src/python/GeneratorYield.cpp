@@ -14,7 +14,7 @@ struct GeneratorYield : UnaryOperator
         return 0;
     }
 
-    function toString()
+    string toString()
     {
         return "yield $this->arg";
     }

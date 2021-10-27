@@ -3,16 +3,7 @@
 
 struct GeneratorAsyncIf : GeneratorAsync
 {
-
-    static function input_precedence()
-    {
-        return 0;
-    }
-
-    static function stack_precedence()
-    {
-        return 0;
-    }
+	__declare_common_interface(0, 0);
 
     protected $cond;
 
@@ -33,7 +24,7 @@ struct GeneratorAsyncIf : GeneratorAsync
         }
     }
 
-    function toString()
+    string toString()
     {
         return parent::toString() . " if $this->cond";
     }

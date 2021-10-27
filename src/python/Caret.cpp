@@ -1,13 +1,5 @@
 #include "Caret.h"
 
-int Caret::input_precedence() {
-	return 0;
-}
-
-int Caret::stack_precedence() {
-	return 0;
-}
-
 Caret::Caret(PyObject *parent) {
 	this->parent = parent;
 }
@@ -62,23 +54,10 @@ PyObject* Caret::append_left_brace() {
 	caret = new Caret();
 
 	parent = this->parent;
-	set = new Set([
-			caret
-			], parent);
+	set = new Set({caret}, parent);
 	parent->replace(this, set);
 
 	return caret;
-}
-
-PyObject *Caret::append_unary_operator(const string &$class)
-{
-	auto parent = this->parent;
-
-	auto $new = new $class(this, parent);
-
-	parent->replace(this, $new);
-
-	return this;
 }
 
 PyObject* Caret::append_left_parenthesis() {

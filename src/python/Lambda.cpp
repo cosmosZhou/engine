@@ -40,7 +40,7 @@ struct Lambda : PyObject
             throw new std::exception("void replace(TreeNode old, TreeNode replacement) throws Exception");
     }
 
-    function toString()
+    string toString()
     {
         return "lambda $this->var : $this->expr";
     }

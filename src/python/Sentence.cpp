@@ -46,7 +46,7 @@ struct Sentence : PyObject
 
     $args;
 
-    function toString()
+    string toString()
     {
         return implode("; ", array_map(fn ($node) => $node->toString(), $this->args));
     }

@@ -3,23 +3,14 @@
 
 struct GeneratorAsync : Generator
 {
-
-    static function input_precedence()
-    {
-        return 0;
-    }
-
-    static function stack_precedence()
-    {
-        return 0;
-    }
+	__declare_common_interface(0, 0);
 
     function __construct($expr, $var, $domain, $parent)
     {
         parent::__construct($expr, $var, $domain, $parent);
     }
 
-    function toString()
+    string toString()
     {
         return "$this->expr async for $this->var in $this->domain";
     }

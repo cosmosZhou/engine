@@ -15,7 +15,7 @@ struct NotContains : BinaryOperator
 
     $in_is_received = false;
 
-    function toString()
+    string toString()
     {
         return "$this->lhs not in $this->rhs";
     }

@@ -3,9 +3,9 @@
 
 struct BitwiseAnd : BinaryOperator
 {
+	__declare_common_interface(12, 0)
 
-    int input_precedence();
-    int stack_precedence();
-    string toString();
-    string type();
+	string $operator(){
+		return "&";
+	}
 };

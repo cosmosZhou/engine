@@ -3,16 +3,7 @@
 
 struct Generator : PyObject
 {
-
-    static function input_precedence()
-    {
-        return 0;
-    }
-
-    static function stack_precedence()
-    {
-        return 0;
-    }
+	__declare_common_interface(0, 0);
 
     // must be an identifier, or a list of identifiers
     $var;
@@ -46,7 +37,7 @@ struct Generator : PyObject
             throw new std::exception("void replace(TreeNode old, TreeNode replacement) throws Exception");
     }
 
-    function toString()
+    string toString()
     {
         return "$this->expr for $this->var in $this->domain";
     }

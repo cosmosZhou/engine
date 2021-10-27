@@ -1,21 +1,12 @@
 #pragma once
-
+#include "BinaryOperator.h"
 struct NotContains : BinaryOperator
 {
-
-    static function input_precedence()
-    {
-        return 0;
-    }
-
-    static function stack_precedence()
-    {
-        return 0;
-    }
+	__declare_common_interface(0, 0);
 
     $in_is_received = false;
 
-    function toString()
+    string toString()
     {
         return "$this->lhs not in $this->rhs";
     }

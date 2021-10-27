@@ -1,33 +1,23 @@
 #pragma once
+#include "PyObject.h"
 
 struct UnaryOperator : PyObject
 {
+	__declare_common_interface(0, 0);
 
-    static function input_precedence()
+    UnaryOperator(PyObject *arg, PyObject *parent): PyObject(parent), arg(arg)
     {
-        return 0;
+        arg->parent = this;
     }
 
-    static function stack_precedence()
-    {
-        return 0;
-    }
+    object<PyObject> arg;
 
-    function __construct($arg, $parent)
+    void replace(PyObject *old, PyObject *$new)
     {
-        $this->arg = $arg;
-        $arg->parent = $this;
-        $this->parent = $parent;
-    }
-
-    protected $arg;
-
-    function replace($old, $new)
-    {
-        if ($this->arg === $old) {
-            $this->arg = $new;
+        if (this->arg == old) {
+            this->arg = $new;
         } else
-            throw new std::exception("void replace(TreeNode old, TreeNode replacement) throws Exception");
+            throw new exception("void replace(TreeNode old, TreeNode replacement) throws Exception");
     }
 }
 ;

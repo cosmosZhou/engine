@@ -1,20 +1,11 @@
 #pragma once
+#include "BinaryOperator.h"
 
 struct Add : BinaryOperator
 {
+	__declare_common_interface(10, 0)
 
-    static function input_precedence()
-    {
-        return 10;
-    }
-
-    static function stack_precedence()
-    {
-        return 0;
-    }
-
-    function toString()
-    {
-        return "$this->lhs + $this->rhs";
+    string $operator(){
+    	return "+";
     }
 };

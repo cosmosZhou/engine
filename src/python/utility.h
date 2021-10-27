@@ -6,11 +6,17 @@ int search_for_mark(const string &$infix, int $i, char $mark);
 
 void append_identifier(PyObject *&caret, const string &$infix, int &$i);
 
-PyObject *compile(const string &$infix, PyObject *&state, PyObject *caret = nullptr);
+
+struct CompilerState{
+	bool ReverseSolidus;
+	bool commentStart;
+};
+
+PyObject *compile(const string &$infix, CompilerState &state, PyObject *caret = nullptr);
 
 PyObject *fetch_whole_sentence(PyObject *caret);
 
-int len_args(const string &$statement, PyObject *caret = nullptr);
+int len_args(const string &statement, PyObject *caret = nullptr);
 
 bool is_unfinished(PyObject *parent, PyObject *self);
 

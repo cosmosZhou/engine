@@ -13,7 +13,7 @@ struct Invert : UnaryOperator
         return 0;
     }
 
-    function toString()
+    string toString()
     {
         return "~$this->arg";
     }

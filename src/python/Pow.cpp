@@ -13,7 +13,7 @@ struct Pow : BinaryOperator
         return 0;
     }
 
-    function toString()
+    string toString()
     {
         return "$this->lhs ** $this->rhs";
     }

@@ -3,9 +3,7 @@
 
 struct FunctionCall : MultiVariableOperator
 {
-
-    int input_precedence();
-    int stack_precedence();
+	__declare_common_interface(0, 0);
 
     string name;
 
@@ -21,7 +19,7 @@ struct FunctionCall : MultiVariableOperator
         return $this;
     }
 
-    function toString()
+    string toString()
     {
         return "$this->name(" . implode(", ", array_map(fn ($obj) => $obj->toString(), $this->args)) . ')';
     }

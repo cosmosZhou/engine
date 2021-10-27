@@ -2,16 +2,7 @@
 
 struct Literal : PyObject
 {
-
-    static function input_precedence()
-    {
-        return 0;
-    }
-
-    static function stack_precedence()
-    {
-        return 11;
-    }
+	__declare_common_interface(0, 11);
 
     protected $literal;
 
@@ -21,7 +12,7 @@ struct Literal : PyObject
         $this->parent = $parent;
     }
 
-    function toString()
+    string toString()
     {
         return $this->literal;
     }

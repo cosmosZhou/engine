@@ -1,21 +1,13 @@
-
 #pragma once
+#include "UnaryOperator.h"
 
-struct Await : UnaryOperator
-{
+struct Await: UnaryOperator {
+	__declare_common_interface(0, 0)
 
-    static function input_precedence()
-    {
-        return 0;
-    }
+	string toString() {
+		ostringstream cout;
+		cout << "await " << this->arg;
+		return cout.str();
+	}
 
-    static function stack_precedence()
-    {
-        return 0;
-    }
-
-    function toString()
-    {
-        return "await $this->arg";
-    }
 };

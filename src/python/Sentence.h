@@ -2,16 +2,7 @@
 
 struct Sentence : PyObject
 {
-
-    static function input_precedence()
-    {
-        return 0;
-    }
-
-    static function stack_precedence()
-    {
-        return 0;
-    }
+	__declare_common_interface(0, 0);
 
     function __construct($args)
     {
@@ -46,7 +37,7 @@ struct Sentence : PyObject
 
     $args;
 
-    function toString()
+    string toString()
     {
         return implode("; ", array_map(fn ($node) => $node->toString(), $this->args));
     }

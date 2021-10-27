@@ -1,19 +1,10 @@
 #pragma once
-
+#include "BinaryOperator.h"
 struct BitwiseOr : BinaryOperator
 {
+	__declare_common_interface(12, 0);
 
-    static function input_precedence()
-    {
-        return 12;
-    }
-
-    static function stack_precedence()
-    {
-        return 0;
-    }
-
-    function toString()
+    string toString()
     {
         return "$this->lhs | $this->rhs";
     }

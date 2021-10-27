@@ -4,9 +4,7 @@
 
 struct IfElse : PyObject
 {
-
-    int input_precedence();
-    int stack_precedence();
+	__declare_common_interface(0, 0);
 
     // must be an identifier, or a list of identifiers
     PyObject *expr;

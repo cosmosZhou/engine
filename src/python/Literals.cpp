@@ -13,7 +13,7 @@ struct Literals : MultiVariableOperator
         return 0;
     }
 
-    function toString()
+    string toString()
     {
         return implode(" ", array_map(fn ($node) => $node->toString(), $this->args));
     }

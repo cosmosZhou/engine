@@ -1,14 +1,6 @@
 // as in the form: expr if cond else other
 #include "IfElse.h"
 
-int IfElse::input_precedence() {
-	return 0;
-}
-
-int IfElse::stack_precedence() {
-	return 0;
-}
-
 IfElse(PyObject *expr, PyObject *cond, PyObject *other, PyObject *parent)
 {
 	$this->expr = $expr;

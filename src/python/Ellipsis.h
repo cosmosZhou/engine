@@ -4,12 +4,8 @@
 
 struct Ellipsis : PyObject
 {
-
+	__declare_common_interface(0, 0);
     Ellipsis(PyObject *parent);
-
-    static int input_precedence();
-
-    static int stack_precedence();
 
     string toString();
 };

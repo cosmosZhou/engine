@@ -2,16 +2,7 @@
 
 struct Number : PyObject
 {
-
-    static function input_precedence()
-    {
-        return 0;
-    }
-
-    static function stack_precedence()
-    {
-        return 0;
-    }
+	__declare_common_interface(0, 0);
 
     protected $digits;
 
@@ -21,7 +12,7 @@ struct Number : PyObject
         $this->parent = $parent;
     }
 
-    function toString()
+    string toString()
     {
         return $this->digits;
     }

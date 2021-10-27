@@ -30,7 +30,7 @@ struct Identifier : PyObject
         return $caret;
     }
 
-    function toString()
+    string toString()
     {
         return $this->name;
     }

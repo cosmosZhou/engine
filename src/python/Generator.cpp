@@ -46,7 +46,7 @@ struct Generator : PyObject
             throw new std::exception("void replace(TreeNode old, TreeNode replacement) throws Exception");
     }
 
-    function toString()
+    string toString()
     {
         return "$this->expr for $this->var in $this->domain";
     }

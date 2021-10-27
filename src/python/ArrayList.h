@@ -1,26 +1,21 @@
-// as in the form [x, y, z] or [x, y, z, ] or [x,]
 #pragma once
 
+#include "MultiVariableOperator.h"
+// as in the form [x, y, z] or [x, y, z, ] or [x,]
 struct ArrayList : MultiVariableOperator
 {
+	__declare_common_interface(0, 0)
 
-    static function input_precedence()
-    {
-        return 0;
-    }
+	string toString() {
+		ostringstream cout;
+		auto arr = array_map([] (PyObject *node) { return node->toString();}, this->args);
 
-    static function stack_precedence()
-    {
-        return 0;
-    }
+		cout << "[" << join(arr, ", ") << "]";
+		return cout.str();
+	}
 
-    function toString()
+    PyObject *append_right_bracket()
     {
-        return "[" . implode(", ", array_map(fn ($node) => $node->toString(), $this->args)) . "]";
-    }
-
-    function append_right_bracket()
-    {
-        return $this;
+        return this;
     }
 };

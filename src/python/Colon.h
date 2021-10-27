@@ -1,18 +1,9 @@
 // as in the form start:stop:step, or as in the form {k:v, k1:v2}
 #pragma once
-
+#include "MultiVariableOperator.h"
 struct Colon : MultiVariableOperator
 {
-
-    static function input_precedence()
-    {
-        return 0;
-    }
-
-    static function stack_precedence()
-    {
-        return 0;
-    }
+	__declare_common_interface(0, 0);
 
     function append_colon($self)
     {
@@ -21,7 +12,7 @@ struct Colon : MultiVariableOperator
         return $caret;
     }
 
-    function toString()
+    string toString()
     {
         return implode(":", array_map(fn ($node) => $node->toString(), $this->args));
     }

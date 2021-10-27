@@ -3,18 +3,9 @@
 
 struct Tuple : MultiVariableOperator
 {
+	__declare_common_interface(0, 0);
 
-    static function input_precedence()
-    {
-        return 0;
-    }
-
-    static function stack_precedence()
-    {
-        return 0;
-    }
-
-    function toString()
+    string toString()
     {
         return "(" . implode(", ", array_map(fn ($node) => $node->toString(), $this->args)) . ")";
     }

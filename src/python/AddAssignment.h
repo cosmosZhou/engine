@@ -1,20 +1,15 @@
 #pragma once
 
+#include "BinaryOperator.h"
+
 struct AddAssignment : BinaryOperator
 {
+	__declare_common_interface(10, 0)
 
-    static function input_precedence()
-    {
-        return 10;
-    }
+	string toString() {
+		ostringstream cout;
+		cout << lhs << " += " << rhs;
+		return cout.str();
+	}
 
-    static function stack_precedence()
-    {
-        return 0;
-    }
-
-    function toString()
-    {
-        return "$this->lhs += $this->rhs";
-    }
 };

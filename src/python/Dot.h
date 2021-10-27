@@ -1,19 +1,9 @@
 #pragma once
-
+#include "BinaryOperator.h"
 struct Dot : BinaryOperator
 {
-
-    static function input_precedence()
-    {
-        return 10;
-    }
-
-    static function stack_precedence()
-    {
-        return 20;
-    }
-
-    function toString()
+	__declare_common_interface(10, 20);
+    string toString()
     {
         return "$this->lhs.$this->rhs";
     }

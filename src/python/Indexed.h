@@ -2,16 +2,7 @@
 
 struct Indexed : MultiVariableOperator
 {
-
-    static function input_precedence()
-    {
-        return 0;
-    }
-
-    static function stack_precedence()
-    {
-        return 0;
-    }
+	__declare_common_interface(0, 0);
 
     protected $base;
 
@@ -27,7 +18,7 @@ struct Indexed : MultiVariableOperator
         return $this;
     }
 
-    function toString()
+    string toString()
     {
         return "$this->base[" . implode(", ", array_map(fn ($obj) => $obj->toString(), $this->args)) . ']';
     }

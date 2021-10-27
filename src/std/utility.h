@@ -1402,3 +1402,15 @@ int binary_search(const vector<_Ty> &arr, const _Ty &value, C comparator) {
 }
 
 string dirname(const string &path);
+
+
+template<typename X, typename FUNC>
+vector<decltype(Y()(X()))> array_map(FUNC f, vector<X> &x){
+	vector<decltype(Y()(X()))> y;
+	int size = x.size();
+	y.resize(size);
+	for (int i = 0; i < size; ++i) {
+		y[i] = f(x[i]);
+	}
+	return y;
+}

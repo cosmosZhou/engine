@@ -1,15 +1,9 @@
 #pragma once
-#include <string>
-using std::string;
-
 #include "PyObject.h"
 
 struct Caret : PyObject
 {
-
-    static int input_precedence();
-
-    static int stack_precedence();
+	__declare_common_interface(0, 0);
 
     Caret(PyObject *parent = 0);
 
@@ -21,7 +15,18 @@ struct Caret : PyObject
 
     PyObject *append_left_brace();
 
-    PyObject *append_unary_operator(const string &$class);
+    template<typename $class>
+    PyObject *append_unary_operator()
+    {
+    	auto parent = this->parent;
+
+    	auto $new = new $class(this, parent);
+
+    	parent->replace(this, $new);
+
+    	return this;
+    }
+
 
     PyObject *append_left_parenthesis();
 

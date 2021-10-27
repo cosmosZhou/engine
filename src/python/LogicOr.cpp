@@ -13,7 +13,7 @@ struct LogicOr : BinaryOperator
         return 0;
     }
 
-    function toString()
+    string toString()
     {
         return "$this->lhs or $this->rhs";
     }

@@ -13,7 +13,7 @@ struct LogicAnd : BinaryOperator
         return 0;
     }
 
-    function toString()
+    string toString()
     {
         return "$this->lhs and $this->rhs";
     }

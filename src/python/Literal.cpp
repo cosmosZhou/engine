@@ -21,7 +21,7 @@ struct Literal : PyObject
         $this->parent = $parent;
     }
 
-    function toString()
+    string toString()
     {
         return $this->literal;
     }

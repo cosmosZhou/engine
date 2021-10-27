@@ -3,10 +3,9 @@
 
 struct MultiVariableOperator : PyObject
 {
-
     MultiVariableOperator(vector<PyObject*> &args, PyObject *parent);
 
-    vector<PyObject*> $args;
+    vector<PyObject*> args;
 
     void replace(PyObject *old, PyObject *$new);
 

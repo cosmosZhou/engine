@@ -33,7 +33,7 @@ struct GeneratorAsyncIf : GeneratorAsync
         }
     }
 
-    function toString()
+    string toString()
     {
         return parent::toString() . " if $this->cond";
     }

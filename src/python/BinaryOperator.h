@@ -1,28 +1,28 @@
 #pragma once
+#include "PyObject.h"
 
-struct BinaryOperator : PyObject
-{
-
-function __construct($lhs, $rhs, $parent)
-	{
-		$this->lhs = $lhs;
-		$this->rhs = $rhs;
-		$lhs->parent = $rhs->parent = $this;
-		$this->parent = $parent;
+struct BinaryOperator: PyObject {
+	object<PyObject> lhs, rhs;
+	BinaryOperator(PyObject *lhs, PyObject *rhs, PyObject *parent) :
+			PyObject(parent), lhs(lhs), rhs(rhs) {
+		lhs->parent = rhs->parent = this;
 	}
 
-$lhs;
-
-$rhs;
-
-	function replace($old, $new)
-	{
-		if ($this->lhs === $old) {
-			$this->lhs = $new;
-		} else if ($this->rhs === $old) {
-			$this->rhs = $new;
+	void replace(PyObject *old, PyObject *$new) {
+		if (lhs == old) {
+			lhs = $new;
+		} else if (rhs == old) {
+			rhs = $new;
 		} else
-		throw new std::exception("void replace(TreeNode old, TreeNode replacement) throws Exception");
+			throw new exception(
+					"void replace(TreeNode old, TreeNode replacement) throws Exception");
 	}
-}
-;
+
+	string toString() {
+		ostringstream cout;
+		cout << lhs << " " << $operator() << " " << rhs;
+		return cout.str();
+	}
+
+	virtual string $operator() = 0;
+};
