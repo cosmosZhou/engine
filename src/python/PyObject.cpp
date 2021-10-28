@@ -29,7 +29,7 @@ PyObject* PyObject::append_left_parenthesis() {
 	}
 
 	if (parent->instanceof("Dot")) {
-		throw new std::exception("parent instanceof Dot?");
+		throw std::runtime_error("parent instanceof Dot?");
 	}
 
 	auto func = new FunctionCall(self, {
@@ -97,21 +97,21 @@ PyObject* PyObject::append_semicolon(PyObject *obj) {
 
 PyObject* PyObject::append_right_bracket() {
 	if (this->parent == nullptr) {
-		throw new std::exception("this's parent is null!");
+		throw std::runtime_error("this's parent is null!");
 	}
 	return this->parent->append_right_bracket();
 }
 
 PyObject* PyObject::append_right_brace() {
 	if (this->parent == nullptr) {
-		throw new std::exception("this's parent is null!");
+		throw std::runtime_error("this's parent is null!");
 	}
 	return this->parent->append_right_brace();
 }
 
 PyObject* PyObject::append_right_parenthesis() {
 	if (this->parent == nullptr) {
-		throw new std::exception("this's parent is null!");
+		throw std::runtime_error("this's parent is null!");
 	}
 	return this->parent->append_right_parenthesis();
 }
@@ -169,8 +169,9 @@ PyObject* PyObject::append_keyword_in() {
 
 		break;
 	}
-	caret = new Caret();
-	contains = new Contains(self, caret, parent);
+
+	auto caret = new Caret();
+	auto contains = new Contains(self, caret, parent);
 	parent->replace(self, contains);
 	return caret;
 }
@@ -179,7 +180,7 @@ PyObject* PyObject::append_keyword_and() {
 	auto self = this;
 
 	for (;;) {
-		if (self instanceof FunctionCall) {
+		if (self->instanceof<FunctionCall>()) {
 			break;
 		}
 
@@ -303,7 +304,7 @@ PyObject* PyObject::append_keyword_if() {
 		}
 
 		if (parent == nullptr) {
-			throw new std::exception("illegal this in if statement ");
+			throw std::runtime_error("illegal this in if statement ");
 		}
 
 		self = parent;
@@ -322,11 +323,11 @@ PyObject* PyObject::append_keyword_else() {
 			if (self === parent->cond) {
 				return parent->other;
 			}
-			throw new std::exception("illegal this in else statement ");
+			throw std::runtime_error("illegal this in else statement ");
 		}
 
 		if (parent == nullptr) {
-			throw new std::exception("illegal this in else statement ");
+			throw std::runtime_error("illegal this in else statement ");
 		}
 
 		self = parent;
@@ -421,7 +422,7 @@ PyObject* PyObject::append_identifier(const string &name) {
 			return literal;
 		}
 
-		throw new std::exception(string("unrecognized keyword name with ") + this->parent->type() + " in " + __LINE__);
+		throw std::runtime_error(string("unrecognized keyword name with ") + this->parent->type() + " in " + __LINE__);
 	}
 }
 

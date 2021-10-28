@@ -3,7 +3,7 @@
 
 struct Caret : PyObject
 {
-	__declare_common_interface(0, 0);
+	__declare_common_interface(0, 0)
 
     Caret(PyObject *parent = 0);
 

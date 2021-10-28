@@ -19,7 +19,7 @@ PyObject *Caret::append_literal(const string &infix, int &i, char mark)
 	auto end = search_for_mark(infix, i, mark);
 
 	if (end == i) {
-		throw new std::exception("digits not found!");
+		throw std::runtime_error("digits not found!");
 	}
 
 	auto string = slice(infix, i, end);
@@ -37,7 +37,7 @@ PyObject *Caret::append_digit(&infix, &i)
 	end = search_for_digits(infix, i);
 
 	if (end == i) {
-		throw new std::exception("digits not found!");
+		throw std::runtime_error("digits not found!");
 	}
 
 	digits = slice(infix, i, end);
@@ -87,7 +87,7 @@ PyObject* Caret::append_identifier(name) {
 		caret = this;
 		break;
 	case "if":
-		throw new std::exception("illegal if statement here");
+		throw std::runtime_error("illegal if statement here");
 		// not = new LogicNot(this, parent);
 		// parent->replace(this, not);
 		// caret = this;
@@ -95,12 +95,12 @@ PyObject* Caret::append_identifier(name) {
 	case "in":
 		if (parent instanceof NotContains) {
 			if (parent->in_is_received) {
-				throw new std::exception(
+				throw std::runtime_error(
 						"illegal in statement here in parent");
 			}
 			parent->in_is_received = true;
 		} else {
-			throw new std::exception("illegal in statement here in parent");
+			throw std::runtime_error("illegal in statement here in parent");
 		}
 
 		caret = this;
@@ -125,7 +125,7 @@ PyObject* Caret::append_identifier(name) {
 		new = new GeneratorYieldFrom(this, forefather);
 		forefather->replace(parent, new);
 	} else {
-		throw new std::exception("illegal from statement of this in parent");
+		throw std::runtime_error("illegal from statement of this in parent");
 	}
 
 	caret = this;
@@ -135,11 +135,11 @@ case "for":
 	parent = this->parent;
 	if (parent instanceof GeneratorAsync) {
 		if (this !== parent->var) {
-			throw new std::exception(
+			throw std::runtime_error(
 					"illegal from statement of this in parent");
 		}
 	} else {
-		throw new std::exception("illegal from statement of this in parent");
+		throw std::runtime_error("illegal from statement of this in parent");
 	}
 
 	caret = this;

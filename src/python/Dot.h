@@ -3,9 +3,10 @@
 struct Dot : BinaryOperator
 {
 	__declare_common_interface(10, 20);
-    string toString()
-    {
-        return "$this->lhs.$this->rhs";
-    }
-}
-;
+
+	string toString() {
+		ostringstream cout;
+		cout << lhs << "." << rhs;
+		return cout.str();
+	}
+};

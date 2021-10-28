@@ -64,6 +64,9 @@ struct PyObject {
 		return dynamic_cast<$class*>(this);
 	}
 
+	virtual int stack_precedence() = 0;
+	virtual int input_precedence() = 0;
+
 	virtual ~PyObject();
 
 	template<typename $class>
@@ -77,7 +80,7 @@ struct PyObject {
 		}
 
 		if (this->parent == nullptr) {
-			throw new std::runtime_error("this 's parent == nullptr in append_binary_operator(InputType, child)");
+			throw std::runtime_error("this 's parent == nullptr in append_binary_operator(InputType, child)");
 		}
 
 		return this->parent->append_binary_operator<$class>(this);
@@ -107,7 +110,7 @@ int input_precedence(){\
 int stack_precedence(){\
 	return _stack_precedence;\
 }\
-type_info type(){\
+const type_info &type(){\
 	return typeid(*this);\
 }
 

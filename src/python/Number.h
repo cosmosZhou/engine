@@ -4,7 +4,7 @@ struct Number : PyObject
 {
 	__declare_common_interface(0, 0);
 
-    protected $digits;
+    PyObject *$digits;
 
     function __construct(string $digits, $parent)
     {

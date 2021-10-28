@@ -1,6 +1,6 @@
 // as in the form: i async for i in (1, 2, 3)
 #pragma once
-
+#include "Generator.h"
 struct GeneratorAsync : Generator
 {
 	__declare_common_interface(0, 0);

@@ -1,6 +1,6 @@
 #include "MultiVariableOperator.h"
 
-MultiVariableOperator::MultiVariableOperator(vector<PyObject*> &args, PyObject *parent):PyObject(parent)
+MultiVariableOperator::MultiVariableOperator(vector<PyObject*> &args, PyObject *parent): PyObject(parent)
 {
 	this->args = args;
 	for (auto arg : args) {
@@ -14,7 +14,7 @@ void MultiVariableOperator::replace(PyObject *old, PyObject *$new)
 {
 	int i = indexOf(this->args, old);
 	if (i < 0)
-		throw new std::exception("void replace(PyObject *old, PyObject *replacement)");
+		throw std::runtime_error("void replace(PyObject *old, PyObject *replacement)");
 	this->args[i] = $new;
 }
 

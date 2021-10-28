@@ -1,13 +1,11 @@
 // as in the form: return (yield x)
 #pragma once
-
+#include "UnaryOperator.h"
 struct GeneratorYield : UnaryOperator
 {
 	__declare_common_interface(0, 0);
 
-    string toString()
-    {
-        return "yield $this->arg";
-    }
-}
-;
+	string $operator() {
+		return "yield ";
+	}
+};

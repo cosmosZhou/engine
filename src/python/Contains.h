@@ -3,10 +3,7 @@
 struct Contains : BinaryOperator
 {
 	__declare_common_interface(0, 0);
-
-    string toString()
-    {
-        return "$this->lhs in $this->rhs";
-    }
-}
-;
+	string $operator() {
+		return "in";
+	}
+};

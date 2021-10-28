@@ -1,36 +1,33 @@
 #pragma once
 #include "MultiVariableOperator.h"
 
-struct FunctionCall : MultiVariableOperator
-{
-	__declare_common_interface(0, 0);
+struct FunctionCall: MultiVariableOperator {
+	__declare_common_interface(0, 0)
 
-    string name;
+	PyObject *name;
 
-    FunctionCall(PyObject *name, vector<PyObject*> $args, PyObject*parent)
-    {
-        parent::__construct($args, $parent);
-        $this->name = $name;
-        $name->parent = $this;
-    }
+	FunctionCall(PyObject *name, vector<PyObject*> $args, PyObject *parent) :
+			MultiVariableOperator(args, parent), name(name) {
+		name->parent = this;
+	}
 
-    function append_right_parenthesis()
-    {
-        return $this;
-    }
+	PyObject* append_right_parenthesis() {
+		return this;
+	}
 
-    string toString()
-    {
-        return "$this->name(" . implode(", ", array_map(fn ($obj) => $obj->toString(), $this->args)) . ')';
-    }
+	string toString() {
+		ostringstream cout;
+		cout << name << "(" << join(", ", array_map([](PyObject *obj) {
+			return obj->toString();
+		}, args)) << this->arg << ")";
+		return cout.str();
+	}
 
-    function replace($old, $new)
-    {
-        if ($old === $this->name) {
-            $this->name = $new;
-        } else {
-            parent::replace($old, $new);
-        }
-    }
-}
-;
+	void replace(PyObject *old, PyObject *$new) {
+		if (old == this->name) {
+			this->name = $new;
+		} else {
+			__super::replace(old, $new);
+		}
+	}
+};

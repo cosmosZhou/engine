@@ -22,7 +22,7 @@ void IfElse::replace(PyObject *old, PyObject *$new) {
 	} else if ($old === $this->other) {
 		$this->other = $new;
 	} else
-		throw new std::exception(
+		throw std::runtime_error(
 				"void replace(TreeNode old, TreeNode replacement) throws Exception");
 }
 

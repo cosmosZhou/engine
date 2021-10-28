@@ -3,12 +3,10 @@
 struct NotContains : BinaryOperator
 {
 	__declare_common_interface(0, 0);
+	string $operator() {
+		return "not in";
+	}
 
-    $in_is_received = false;
+    bool $in_is_received = false;
 
-    string toString()
-    {
-        return "$this->lhs not in $this->rhs";
-    }
-}
-;
+};

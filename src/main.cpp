@@ -109,7 +109,7 @@ int main(int argc, char **argv) {
 //			\std\println("caret = " . $caret);
 //			\std\println("original    = " . $statement);
 //			\std\println("transformed = " . $nodeString);
-//			throw new std::exception("mismatch detected");
+//			throw std::runtime_error("mismatch detected");
 //		}
 //		$caret = null;
 	}

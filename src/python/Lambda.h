@@ -6,9 +6,9 @@ struct Lambda : PyObject
 	__declare_common_interface(0, 0);
 
     // must be an identifier, or a list of identifiers
-    protected $var;
+    PyObject *$var;
 
-    protected $expr;
+    PyObject *$expr;
 
     function __construct($var, $expr, $parent)
     {
@@ -21,14 +21,14 @@ struct Lambda : PyObject
         $this->parent = $parent;
     }
 
-    function replace($old, $new)
+    void replace(PyObject *old, PyObject *$new)
     {
         if ($old === $this->expr) {
             $this->expr = $new;
         } else if ($old === $this->var) {
             $this->var = $new;
         } else
-            throw new std::exception("void replace(TreeNode old, TreeNode replacement) throws Exception");
+            throw std::runtime_error("void replace(TreeNode old, TreeNode replacement) throws Exception");
     }
 
     string toString()
@@ -49,7 +49,7 @@ struct Lambda : PyObject
         } else if ($child === $this->expr) {
             return parent::append_comma($child);
         } else {
-            throw new std::exception('illegal $child for lambda expression $this');
+            throw std::runtime_error('illegal $child for lambda expression $this');
         }
     }
 
@@ -58,7 +58,7 @@ struct Lambda : PyObject
         if ($self === $this->var) {
             return $this->expr;
         } else {
-            throw new std::exception("$this could not accept more slice args!");
+            throw std::runtime_error("$this could not accept more slice args!");
         }
     }
 }

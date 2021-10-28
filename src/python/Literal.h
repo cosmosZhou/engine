@@ -1,10 +1,10 @@
 #pragma once
-
+#include "PyObject.h"
 struct Literal : PyObject
 {
 	__declare_common_interface(0, 11);
 
-    protected $literal;
+    PyObject *$literal;
 
     function __construct(string $literal, $parent = null)
     {
@@ -59,7 +59,7 @@ struct Literal : PyObject
         $end = search_for_mark($infix, $i, $mark);
 
         if ($end == $i) {
-            throw new std::exception("literal not found!");
+            throw std::runtime_error("literal not found!");
         }
 
         $string = \std\slice($infix, $i, $end);

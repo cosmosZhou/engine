@@ -1,4 +1,5 @@
 #pragma once
+#include "MultiVariableOperator.h"
 struct Literals : MultiVariableOperator
 {
 	__declare_common_interface(0, 0);

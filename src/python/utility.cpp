@@ -141,7 +141,7 @@ function append_identifier(&caret, &infix, &i)
     end = search_for_identifier(infix, i);
 
     if (end == i) {
-        throw new std::exception("lexeme not found!");
+        throw std::runtime_error("lexeme not found!");
     }
 
     // \std\println(\std\slice(infix, i, end));
@@ -185,9 +185,9 @@ function compile(string &infix, &state, caret = null)
                 if (i + 1 < strlen && infix[i + 1] == '=') {
                     ++ i;
                     // x != y
-                    caret = caret->parent->append_binary_operator('python\Unequal', caret);
+                    caret = caret->parent->append_binary_operator('Unequal', caret);
                 } else {
-                    throw new std::exception('illegal character ch after !');
+                    throw std::runtime_error('illegal character ch after !');
                 }
 
                 break;
@@ -207,9 +207,9 @@ function compile(string &infix, &state, caret = null)
                 // unicodedata.name("%")
                 if (i + 1 < strlen && infix[i + 1] == '=') {
                     ++ i;
-                    class = 'python\ModAssignment';
+                    $class = "ModAssignment";
                 } else {
-                    class = 'python\Mod';
+                    $class = "Mod";
                 }
                 caret = caret->parent->append_binary_operator(class, caret);
                 break;
@@ -219,10 +219,10 @@ function compile(string &infix, &state, caret = null)
                 if (i + 1 < strlen && infix[i + 1] == '=') {
                     ++ i;
                     // x &= y
-                    class = 'python\BitwiseAndAssignment';
+                    $class = "BitwiseAndAssignment";
                 } else {
                     // x & y
-                    class = 'python\BitwiseAnd';
+                    $class = "BitwiseAnd";
                 }
 
                 caret = caret->parent->append_binary_operator(class, caret);
@@ -244,10 +244,10 @@ function compile(string &infix, &state, caret = null)
                     if (i + 1 < strlen && infix[i + 1] == '*') {
                         ++ i;
                         // **kwargs
-                        class = 'python\DoubleStar';
+                        $class = "DoubleStar";
                     } else {
                         // **args
-                        class = 'python\Star';
+                        $class = "Star";
                     }
 
                     caret = caret->append_unary_operator(class);
@@ -258,27 +258,27 @@ function compile(string &infix, &state, caret = null)
                             case '=':
                                 ++ i;
                                 // x *= y
-                                class = 'python\MulAssignment';
+                                $class = "MulAssignment";
                                 break;
                             case '*':
                                 ++ i;
                                 if (i + 1 < strlen && infix[i + 1] == '=') {
                                     ++ i;
                                     // x **= y
-                                    class = 'python\PowAssignment';
+                                    $class = "PowAssignment";
                                 } else {
-                                    class = 'python\Pow';
+                                    $class = "Pow";
                                 }
 
                                 break;
                             default:
                                 // x * y
-                                class = 'python\Mul';
+                                $class = "Mul";
                                 break;
                         }
                     } else {
                         // x * y
-                        class = 'python\Mul';
+                        $class = "Mul";
                     }
 
                     caret = caret->parent->append_binary_operator(class, caret);
@@ -287,16 +287,16 @@ function compile(string &infix, &state, caret = null)
                 break;
             case '+':
                 if (caret->instanceof("Caret")) {
-                    caret = caret->append_unary_operator('python\Plus');
+                    caret = caret->append_unary_operator('Plus');
                 } else {
                     if (i + 1 < strlen && infix[i + 1] == '=') {
 
                         ++ i;
                         // x += y
-                        class = 'python\AddAssignment';
+                        $class = "AddAssignment";
                     } else {
                         // x + y
-                        class = 'python\Add';
+                        $class = "Add";
                     }
 
                     caret = caret->parent->append_binary_operator(class, caret);
@@ -314,10 +314,10 @@ function compile(string &infix, &state, caret = null)
 
                         ++ i;
                         // x -= y
-                        class = 'python\SubAssignment';
+                        $class = "SubAssignment";
                     } else {
                         // x - y
-                        class = 'python\Sub';
+                        $class = "Sub";
                     }
 
                     caret = caret->parent->append_binary_operator(class, caret);
@@ -329,7 +329,7 @@ function compile(string &infix, &state, caret = null)
                     i += 2;
                     caret = caret->append_ellipsis();
                 } else {
-                    caret = caret->parent->append_binary_operator('python\Dot', caret);
+                    caret = caret->parent->append_binary_operator('Dot', caret);
                 }
 
                 break;
@@ -340,28 +340,28 @@ function compile(string &infix, &state, caret = null)
                         case '=':
                             ++ i;
                             // x /= y
-                            class = 'python\DivAssignment';
+                            $class = "DivAssignment";
                             break;
                         case '/':
                             ++ i;
                             if (i + 1 < strlen && infix[i + 1] == '=') {
                                 ++ i;
                                 // x //= y
-                                class = 'python\FloorDivAssignment';
+                                $class = "FloorDivAssignment";
                             } else {
                                 // x // y
-                                class = 'python\FloorDiv';
+                                $class = "FloorDiv";
                             }
 
                             break;
                         default:
                             // x / y
-                            class = 'python\Div';
+                            $class = "Div";
                             break;
                     }
                 } else {
                     // x / y
-                    class = 'python\Div';
+                    $class = "Div";
                 }
 
                 caret = caret->parent->append_binary_operator(class, caret);
@@ -394,7 +394,7 @@ function compile(string &infix, &state, caret = null)
                         case '=':
                             ++ i;
                             // x <= y
-                            class = 'python\LessEqual';
+                            $class = "LessEqual";
                             break;
                         case '<':
                             ++ i;
@@ -403,21 +403,21 @@ function compile(string &infix, &state, caret = null)
                                     case '=':
                                         ++ i;
                                         // x <<= y
-                                        class = 'python\LeftShiftAssignment';
+                                        $class = "LeftShiftAssignment";
                                         break;
                                     default:
                                         // x << y
-                                        class = 'python\LeftShift';
+                                        $class = "LeftShift";
                                         break;
                                 }
                             } else {
                                 // x << y
-                                class = 'python\LeftShift';
+                                $class = "LeftShift";
                             }
                             break;
                         default:
                             // x < y
-                            class = 'python\Less';
+                            $class = "Less";
                             break;
                     }
                 }
@@ -429,9 +429,9 @@ function compile(string &infix, &state, caret = null)
                 if (i + 1 < strlen && infix[i + 1] == '=') {
                     ++ i;
                     // x == y
-                    class = 'python\Equal';
+                    $class = "Equal";
                 } else
-                    class = 'python\EqualAssignment';
+                    $class = "EqualAssignment";
 
                 caret = caret->parent->append_binary_operator(class, caret);
                 break;
@@ -443,26 +443,26 @@ function compile(string &infix, &state, caret = null)
                         case '=':
                             ++ i;
                             // x >= y
-                            class = 'python\GreaterEqual';
+                            $class = "GreaterEqual";
                             break;
                         case '>':
                             ++ i;
                             if (i + 1 < strlen && infix[i + 1] == '=') {
                                 ++ i;
                                 // x >>= y
-                                class = 'python\RightShiftAssignment';
+                                $class = "RightShiftAssignment";
                             } else
                                 // x >> y
-                                class = 'python\RightShift';
+                                $class = "RightShift";
                             break;
                         default:
                             // x > y
-                            class = 'python\Greater';
+                            $class = "Greater";
                             break;
                     }
                 } else
                     // x > y
-                    class = 'python\Greater';
+                    $class = "Greater";
 
                 caret = caret->parent->append_binary_operator(class, caret);
                 break;
@@ -475,9 +475,9 @@ function compile(string &infix, &state, caret = null)
                 // unicodedata.name('@')
                 if (i + 1 < strlen && infix[i + 1] == '=') {
                     ++ i;
-                    class = 'python\MatMulAssignment';
+                    $class = "MatMulAssignment";
                 } else
-                    class = 'python\MatMul';
+                    $class = "MatMul";
 
                 caret = caret->parent->append_binary_operator(class, caret);
                 break;
@@ -521,7 +521,7 @@ function compile(string &infix, &state, caret = null)
                         case "\n":
                             break;
                         default:
-                            throw new std::exception("illegal characters after ReverseSolidus: " . \std\slice(infix, i));
+                            throw std::runtime_error("illegal characters after ReverseSolidus: " . \std\slice(infix, i));
                     }
                 }
 
@@ -534,9 +534,9 @@ function compile(string &infix, &state, caret = null)
             case '^':
                 if (i + 1 < strlen && infix[i + 1] == '=') {
                     ++ i;
-                    class = 'python\ExclusiveOrAssignment';
+                    $class = "ExclusiveOrAssignment";
                 } else
-                    class = 'python\ExclusiveOr';
+                    $class = "ExclusiveOr";
 
                 caret = caret->parent->append_binary_operator(class, caret);
                 break;
@@ -584,9 +584,9 @@ function compile(string &infix, &state, caret = null)
             case '|':
                 if (i + 1 < strlen && infix[i + 1] == "=") {
                     ++ i;
-                    class = 'python\BitwiseOrAssignment';
+                    $class = "BitwiseOrAssignment";
                 } else
-                    class = 'python\BitwiseOr';
+                    $class = "BitwiseOr";
 
                 caret = caret->parent->append_binary_operator(class, caret);
                 break;
@@ -595,7 +595,7 @@ function compile(string &infix, &state, caret = null)
                 break;
 
             case '~':
-                caret = caret->append_unary_operator('python\Invert');
+                caret = caret->append_unary_operator('Invert');
                 break;
             default:
                 if (ord(ch) >= 128) {
@@ -658,11 +658,11 @@ int len_args(const string &statement, PyObject *caret = nullptr)
         return caret;
     }
 
-    sentence = fetch_whole_sentence(caret);
-    list (caret,) = sentence->args;
+    auto sentence = fetch_whole_sentence(caret);
+    auto caret = sentence->args[0];
 
     if (caret->instanceof("Comma") || caret->instanceof("ArrayList") || caret->instanceof("Tuple")) {
-        count = caret->args.size();
+        int count = caret->args.size();
         auto last = caret->args.back();
         if (last->instanceof("Caret")) {
             -- count;
@@ -698,7 +698,7 @@ bool is_unfinished(PyObject *parent, PyObject *self)
 //    count = 0;
 //    caret = null;
 //    folder = dirname(dirname(dirname(__file__)));
-//    // folder = 'D:\Program Files\Python\Python36';
+//    // folder = 'D:\Program Files\Python36";
 //    // folder = dirname(dirname(__file__));
 //    // folder = dirname(__file__);
 //    foreach (\std\list_all_files(folder, 'py') as py) {
@@ -801,7 +801,7 @@ bool is_unfinished(PyObject *parent, PyObject *self)
 //                \std\println("caret = " . caret);
 //                \std\println("original    = " . statement);
 //                \std\println("transformed = " . nodeString);
-//                throw new std::exception("mismatch detected");
+//                throw std::runtime_error("mismatch detected");
 //            }
 //            caret = null;
 //        }

@@ -1,7 +1,7 @@
 #pragma once
+#include "PyObject.h"
 
-struct Sentence : PyObject
-{
+struct Sentence : PyObject{
 	__declare_common_interface(0, 0);
 
     function __construct($args)
@@ -42,11 +42,11 @@ struct Sentence : PyObject
         return implode("; ", array_map(fn ($node) => $node->toString(), $this->args));
     }
 
-    function replace($old, $new)
+    void replace(PyObject *old, PyObject *$new)
     {
         $i = array_search($old, $this->args, true);
         if ($i === false)
-            throw new std::exception("void replace(TreeNode old, TreeNode replacement) throws Exception");
+            throw std::runtime_error("void replace(TreeNode old, TreeNode replacement) throws Exception");
         $this->args[$i] = $new;
     }
 

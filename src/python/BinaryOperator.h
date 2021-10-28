@@ -14,7 +14,7 @@ struct BinaryOperator: PyObject {
 		} else if (rhs == old) {
 			rhs = $new;
 		} else
-			throw new exception(
+			throw std::runtime_error(
 					"void replace(TreeNode old, TreeNode replacement) throws Exception");
 	}
 

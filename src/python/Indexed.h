@@ -1,21 +1,20 @@
 #pragma once
+#include "MultiVariableOperator.h"
 
 struct Indexed : MultiVariableOperator
 {
 	__declare_common_interface(0, 0);
 
-    protected $base;
+    PyObject *base;
 
-    function __construct(PyObject $base, $args, $parent)
+    Indexed(PyObject *base, vector<PyObject*> &args, PyObject *parent): MultiVariableOperator(args, parent), base(base)
     {
-        parent::__construct($args, $parent);
-        $this->base = $base;
-        $base->parent = $this;
+        base->parent = this;
     }
 
-    function append_right_bracket()
+    PyObject *append_right_bracket()
     {
-        return $this;
+        return this;
     }
 
     string toString()
@@ -23,7 +22,7 @@ struct Indexed : MultiVariableOperator
         return "$this->base[" . implode(", ", array_map(fn ($obj) => $obj->toString(), $this->args)) . ']';
     }
 
-    function replace($old, $new)
+    void replace(PyObject *old, PyObject *$new)
     {
         if ($old === $this->base) {
             $this->base = $new;

@@ -1,11 +1,11 @@
 // as in the form: i async for i in (1, 2, 3) if i
 #pragma once
-
+#include "GeneratorAsync.h"
 struct GeneratorAsyncIf : GeneratorAsync
 {
 	__declare_common_interface(0, 0);
 
-    protected $cond;
+    PyObject *$cond;
 
     function __construct($expr, $var, $domain, $cond, $parent)
     {
@@ -15,7 +15,7 @@ struct GeneratorAsyncIf : GeneratorAsync
         $cond->parent = $this;
     }
 
-    function replace($old, $new)
+    void replace(PyObject *old, PyObject *$new)
     {
         if ($old === $this->cond) {
             $this->cond = $new;

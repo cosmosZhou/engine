@@ -1,16 +1,16 @@
 // as in the form: i for i in (1, 2, 3)
 #pragma once
-
+#include "PyObject.h"
 struct Generator : PyObject
 {
 	__declare_common_interface(0, 0);
 
     // must be an identifier, or a list of identifiers
-    $var;
+	PyObject *var;
 
-    protected $domain;
+	PyObject *domain;
 
-    protected $expr;
+	PyObject *expr;
 
     function __construct($expr, $var, $domain, $parent)
     {
@@ -25,7 +25,7 @@ struct Generator : PyObject
         $this->parent = $parent;
     }
 
-    function replace($old, $new)
+    void replace(PyObject *old, PyObject *$new)
     {
         if ($old === $this->expr) {
             $this->expr = $new;
@@ -34,7 +34,7 @@ struct Generator : PyObject
         } else if ($old === $this->domain) {
             $this->domain = $new;
         } else
-            throw new std::exception("void replace(TreeNode old, TreeNode replacement) throws Exception");
+            throw std::runtime_error("void replace(TreeNode old, TreeNode replacement) throws Exception");
     }
 
     string toString()
@@ -54,7 +54,7 @@ struct Generator : PyObject
             $this->replace($this->var, $comma);
             return $caret;
         } else {
-            throw new std::exception("illegal $child in $this for append_comma");
+            throw std::runtime_error("illegal $child in $this for append_comma");
         }
     }
 }

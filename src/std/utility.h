@@ -145,6 +145,14 @@ struct object: color_ptr<_Ty> {
 		return *this->reptr() == *y.reptr();
 	}
 
+	bool operator ==(const _Ty *y) const {
+		return this->reptr() == y;
+	}
+
+	bool operator ==(_Ty *y) const {
+		return this->reptr() == y;
+	}
+
 	template<typename T> _Myt& operator +=(T &y) {
 		this->reptr(&(*this->reptr() + y));
 		return *this;
@@ -1404,11 +1412,11 @@ int binary_search(const vector<_Ty> &arr, const _Ty &value, C comparator) {
 string dirname(const string &path);
 
 
-template<typename X, typename FUNC>
-vector<decltype(Y()(X()))> array_map(FUNC f, vector<X> &x){
-	vector<decltype(Y()(X()))> y;
+template<typename X, typename Y>
+vector<Y> array_map(Y (*f)(X), vector<X> &x){
 	int size = x.size();
-	y.resize(size);
+	vector<Y> y(size);
+
 	for (int i = 0; i < size; ++i) {
 		y[i] = f(x[i]);
 	}
