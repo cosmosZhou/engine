@@ -1,19 +1,15 @@
 #pragma once
 #include "MultiVariableOperator.h"
-struct Literals : MultiVariableOperator
-{
-	__declare_common_interface(0, 0);
+struct Literals: MultiVariableOperator {
+	__declare_common_interface(0, 0)
+	;
 
-    string toString()
-    {
-        return implode(" ", array_map(fn ($node) => $node->toString(), $this->args));
-    }
+	string toString() {
+		return join(" ", array_map(&PyObject::toString, this->args));
+	}
 
-    function append_comma($child)
-    {
-        return $this->parent->append_comma($this);
-    }
-}
+	PyObject* append_comma(PyObject *child) {
+		return this->parent->append_comma(this);
+	}
 
-
-;
+};

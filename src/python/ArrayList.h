@@ -2,20 +2,20 @@
 
 #include "MultiVariableOperator.h"
 // as in the form [x, y, z] or [x, y, z, ] or [x,]
-struct ArrayList : MultiVariableOperator
-{
+struct ArrayList: MultiVariableOperator {
 	__declare_common_interface(0, 0)
+	ArrayList(vector<PyObject*> &args): MultiVariableOperator(args){
+
+	}
 
 	string toString() {
 		ostringstream cout;
-		auto arr = array_map([] (PyObject *node) { return node->toString();}, this->args);
-
-		cout << "[" << join(arr, ", ") << "]";
+		cout << "[" << join(", ", array_map(&PyObject::toString, this->args))
+				<< "]";
 		return cout.str();
 	}
 
-    PyObject *append_right_bracket()
-    {
-        return this;
-    }
+	PyObject* append_right_bracket() {
+		return this;
+	}
 };

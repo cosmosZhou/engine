@@ -3,16 +3,22 @@
 using std::string;
 #include <map>
 using std::map;
+#include <set>
+using std::set;
+
 #include <vector>
 using std::vector;
 #include <exception>
 #include <typeinfo>
 using std::type_info;
+#include <iostream>
+using std::ostream;
 
 #include "../std/utility.h"
 
 struct PyObject {
-	PyObject(PyObject *parent=nullptr) : parent(parent){
+	PyObject(PyObject *parent = nullptr) :
+			parent(parent) {
 	}
 
 	PyObject* append_left_parenthesis();
@@ -56,11 +62,10 @@ struct PyObject {
 
 	virtual void replace(PyObject *old, PyObject *$new);
 
-	virtual string type();
-	bool instanceof(const string &type);
+	virtual const type_info& type();
 
 	template<typename $class>
-	bool instanceof(){
+	bool instanceof() {
 		return dynamic_cast<$class*>(this);
 	}
 
@@ -70,9 +75,9 @@ struct PyObject {
 	virtual ~PyObject();
 
 	template<typename $class>
-	PyObject* append_binary_operator(PyObject* child) {
+	PyObject* append_binary_operator(PyObject *child) {
 		if ($class::_input_precedence > this->stack_precedence()) {
-			auto caret = new Caret();
+			auto caret = newCaret();
 			auto $new = new $class(child, caret, this);
 
 			this->replace(child, $new);
@@ -80,25 +85,42 @@ struct PyObject {
 		}
 
 		if (this->parent == nullptr) {
-			throw std::runtime_error("this 's parent == nullptr in append_binary_operator(InputType, child)");
+			throw std::runtime_error(
+					"this 's parent == nullptr in append_binary_operator(InputType, child)");
 		}
 
 		return this->parent->append_binary_operator<$class>(this);
 	}
 
-    friend ostream &operator << (ostream &cout, PyObject *self)
-    {
-    	ostringstream cout;
-    	cout << self->toString();
-        return cout.str();
-    }
+	friend ostream& operator <<(ostream &cout, PyObject *self) {
+		cout << self->toString();
+		return cout;
+	}
 
-    friend ostream &operator << (ostream &cout, PyObject &self)
-    {
-    	ostringstream cout;
-    	cout << self.toString();
-        return cout.str();
-    }
+	friend ostream& operator <<(ostream &cout, PyObject &self) {
+		cout << self.toString();
+		return cout;
+	}
+
+	PyObject* newCaret();
+	virtual bool is_Caret(){
+		return false;
+	}
+
+	template<typename $class>
+	PyObject* append_unary_operator() {
+		if (this->is_Caret()) {
+			auto parent = this->parent;
+
+			auto $new = new $class(this, parent);
+
+			parent->replace(this, $new);
+
+			return this;
+		}
+		return nullptr;
+	}
+
 };
 
 #define __declare_common_interface(input, stack)\
@@ -113,9 +135,4 @@ int stack_precedence(){\
 const type_info &type(){\
 	return typeid(*this);\
 }
-
-
-
-
-
 

@@ -1,92 +1,25 @@
 #pragma once
 #include "PyObject.h"
-struct Literal : PyObject
-{
-	__declare_common_interface(0, 11);
+struct Literal: PyObject {
+	__declare_common_interface(0, 11)
 
-    PyObject *$literal;
+	string literal;
 
-    function __construct(string $literal, $parent = null)
-    {
-        $this->literal = $literal;
-        $this->parent = $parent;
-    }
+	Literal(const string &literal, PyObject *parent = nullptr) :
+			PyObject(parent), literal(literal) {
+	}
 
-    string toString()
-    {
-        return $this->literal;
-    }
+	string toString() {
+		return literal;
+	}
 
-    static function is_literal_prefix($literal)
-    {
-        switch ($literal) {
-            case 'r':
-            case 'f':
-            case 'u':
-            case 'b':
-            case 'R':
-            case 'F':
-            case 'U':
-            case 'B':
+	static bool is_literal_prefix(const string &literal) {
+		static set<string> dict = { "r", "f", "u", "b", "R", "F", "U", "B",
 
-            case 'rf':
-            case 'rb':
-            case 'rF':
-            case 'rB':
+		"rf", "rb", "rF", "rB", "Rf", "Rb", "RF", "RB", "fr", "br", "Fr", "Br",
+				"fR", "bR", "FR", "BR" };
+		return dict.count(literal);
+	}
 
-            case 'Rf':
-            case 'Rb':
-            case 'RF':
-            case 'RB':
-
-            case 'fr':
-            case 'br':
-            case 'Fr':
-            case 'Br':
-
-            case 'fR':
-            case 'bR':
-            case 'FR':
-            case 'BR':
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    function append_literal(&$infix, &$i, $mark)
-    {
-        $end = search_for_mark($infix, $i, $mark);
-
-        if ($end == $i) {
-            throw std::runtime_error("literal not found!");
-        }
-
-        $string = \std\slice($infix, $i, $end);
-
-        $parent = $this->parent;
-        if ($parent instanceof Literals) {
-
-            if (Literal::is_literal_prefix($this->literal)) {
-
-                $this->literal .= $string;
-                $caret = $this;
-            } else {
-                $caret = new Literal($string, $parent);
-                $parent->args[] = $caret;
-            }
-        } else {
-            $caret = new Literal($string);
-            $new = new Literals([
-                $this,
-                $caret
-            ], $parent);
-
-            $parent->replace($this, $new);
-        }
-
-        $i = $end - 1;
-        return $caret;
-    }
-}
-;
+	PyObject *append_literal(string &infix, int &i, char mark);
+};

@@ -1,5 +1,6 @@
-// as in the form: i for i in (1, 2, 3) if i
 #pragma once
+// as in the form: i for i in (1, 2, 3) if i
+
 #include "Generator.h"
 struct GeneratorIf: Generator {
 	__declare_common_interface(0, 0);
@@ -16,12 +17,12 @@ struct GeneratorIf: Generator {
 		if (old == this->cond) {
 			this->cond = $new;
 		} else {
-			__super::replace(old, $new);
+			Generator::replace(old, $new);
 		}
 	}
 	string toString() {
 		ostringstream cout;
-		cout << __super::toString() << " if "<< this->cond;
+		cout << Generator::toString() << " if "<< this->cond;
 		return cout.str();
 	}
 };

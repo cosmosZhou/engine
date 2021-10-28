@@ -1,4 +1,5 @@
 #include "MultiVariableOperator.h"
+#include "Caret.h"
 
 MultiVariableOperator::MultiVariableOperator(vector<PyObject*> &args, PyObject *parent): PyObject(parent)
 {

@@ -1,17 +1,21 @@
 #pragma once
 #include "MultiVariableOperator.h"
-struct Set : MultiVariableOperator
-{
-	__declare_common_interface(0, 0);
+struct Set: MultiVariableOperator {
+	__declare_common_interface(0, 0)
 
-    string toString()
-    {
-        return "{" . implode(", ", array_map(fn ($node) => $node->toString(), $this->args)) . "}";
-    }
+	Set(const vector<PyObject*> &args) :
+			MultiVariableOperator(args) {
+	}
 
-    function append_right_brace()
-    {
-        return $this;
-    }
-}
-;
+	string toString() {
+		ostringstream cout;
+		cout << "{" << join(", ", array_map(&PyObject::toString, this->args))
+				<< "}";
+		return cout.str();
+	}
+
+	PyObject* append_right_brace() {
+		return this;
+	}
+
+};

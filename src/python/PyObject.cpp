@@ -1,6 +1,27 @@
 #include "PyObject.h"
 #include "Caret.h"
 #include "FunctionCall.h"
+#include "Indexed.h"
+#include "Parenthesis.h"
+#include "LessEqual.h"
+#include "Less.h"
+#include "Greater.h"
+#include "GreaterEqual.h"
+#include "Equal.h"
+#include "Unequal.h"
+#include "Contains.h"
+#include "NotContains.h"
+#include "LogicNot.h"
+#include "LogicAnd.h"
+#include "LogicOr.h"
+#include "Set.h"
+#include "Tuple.h"
+#include "ArrayList.h"
+#include "IfElse.h"
+#include "Generator.h"
+#include "GeneratorIf.h"
+#include "GeneratorAsync.h"
+#include "Dot.h"
 
 map<string, PyObject::MFPTR> PyObject::fpntr = []() -> map<string,
 		PyObject::MFPTR> {
@@ -23,13 +44,13 @@ PyObject* PyObject::append_left_parenthesis() {
 	auto parent = self->parent;
 
 	auto caret = new Caret();
-	if (parent->instanceof("Dot")) {
+	if (parent->instanceof<Dot>()) {
 		self = parent;
 		parent = self->parent;
 	}
 
-	if (parent->instanceof("Dot")) {
-		throw std::runtime_error("parent instanceof Dot?");
+	if (parent->instanceof<Dot>()) {
+		throw std::runtime_error("parent->instanceof<Dot>()?");
 	}
 
 	auto func = new FunctionCall(self, {
@@ -45,11 +66,11 @@ PyObject* PyObject::append_colon(self) {
 	child = (function (self) {
 				do {
 					parent = self->parent;
-					if (parent instanceof Indexed || parent instanceof Set) {
+					if (parent->instanceof<Indexed>() || parent->instanceof<Set>()) {
 						return null;
 					}
 
-					if (parent instanceof Lambda || parent instanceof Colon) {
+					if (parent->instanceof<Lambda>() || parent->instanceof<Colon>()) {
 						break;
 					}
 					self = parent;
@@ -129,12 +150,12 @@ PyObject* PyObject::append_keyword_for() {
 	auto self = this;
 
 	do {
-		parent = self->parent;
-		if (parent instanceof Parenthesis || parent instanceof FunctionCall || parent instanceof ArrayList || parent instanceof Set) {
+		auto parent = self->parent;
+		if (parent->instanceof<Parenthesis>() || parent->instanceof<FunctionCall>() || parent->instanceof<ArrayList>() || parent->instanceof<Set>()) {
 
-			domain = new Caret();
-			var = new Caret();
-			generator = new Generator(self, var, domain, parent);
+			auto domain = new Caret();
+			auto var = new Caret();
+			auto generator = new Generator(self, var, domain, parent);
 			parent->replace(self, generator);
 			return var;
 		} else {
@@ -144,17 +165,17 @@ PyObject* PyObject::append_keyword_for() {
 			self = parent;
 		}
 	} while (true);
-
+	return nullptr;
 }
 
 PyObject* PyObject::append_keyword_in() {
 	parent = this->parent;
-	while (parent instanceof Comma || parent instanceof Star) {
+	while (parent->instanceof<Comma>() || parent->instanceof<Star>()) {
 		parent = parent->parent;
 	}
 
-	if (parent instanceof Generator) {
-		if (parent->domain instanceof Caret)
+	if (parent->instanceof<Generator>()) {
+		if (parent->domain->instanceof<Caret>())
 			return parent->domain;
 	}
 
@@ -162,7 +183,7 @@ PyObject* PyObject::append_keyword_in() {
 
 	for (;;) {
 		parent = self->parent;
-		if (parent instanceof Dot) {
+		if (parent->instanceof<Dot>()) {
 			self = parent;
 			continue;
 		}
@@ -186,32 +207,32 @@ PyObject* PyObject::append_keyword_and() {
 
 		parent = self->parent;
 
-		if (parent instanceof LessEqual || //
-		parent instanceof Less ||//
-		parent instanceof Greater ||//
-		parent instanceof GreaterEqual ||//
-		parent instanceof Equal ||//
-		parent instanceof Unequal ||//
-		parent instanceof Contains ||//
-		parent instanceof NotContains ||//
-		parent instanceof LogicNot ||//
-		parent instanceof LogicAnd) {
+		if (parent->instanceof<LessEqual>() || //
+		parent->instanceof<Less>() ||//
+		parent->instanceof<Greater>() ||//
+		parent->instanceof<GreaterEqual>() ||//
+		parent->instanceof<Equal>() ||//
+		parent->instanceof<Unequal>() ||//
+		parent->instanceof<Contains>() ||//
+		parent->instanceof<NotContains>() ||//
+		parent->instanceof<LogicNot>() ||//
+		parent->instanceof<LogicAnd>()) {
 			self = parent;
 			break;
 		}
 
-		if (parent instanceof LogicOr || //
-		parent instanceof Sentence ||//
-		parent instanceof Parenthesis ||//
-		parent instanceof IfElse ||//
-		parent instanceof Set ||//
-		parent instanceof Tuple ||//
-		parent instanceof Indexed ||//
-		parent instanceof FunctionCall) {
+		if (parent->instanceof<LogicOr>() || //
+		parent->instanceof<Sentence>() ||//
+		parent->instanceof<Parenthesis>() ||//
+		parent->instanceof<IfElse>() ||//
+		parent->instanceof<Set>() ||//
+		parent->instanceof<Tuple>() ||//
+		parent->instanceof<Indexed>() ||//
+		parent->instanceof<FunctionCall>()) {
 			break;
 		}
 
-		if (parent instanceof GeneratorIf && parent->cond === self) {
+		if (parent->instanceof<GeneratorIf>() && parent->cond == self) {
 			break;
 		}
 
@@ -229,38 +250,38 @@ PyObject* PyObject::append_keyword_or() {
 	auto self = this;
 
 	for (;;) {
-		if (self instanceof FunctionCall) {
+		if (self->instanceof<FunctionCall>()) {
 			break;
 		}
 
 		parent = self->parent;
 
-		if (parent instanceof LessEqual || //
-		parent instanceof Less ||//
-		parent instanceof Greater ||//
-		parent instanceof GreaterEqual ||//
-		parent instanceof Equal ||//
-		parent instanceof Unequal ||//
-		parent instanceof Contains ||//
-		parent instanceof NotContains ||//
-		parent instanceof LogicNot ||//
-		parent instanceof LogicAnd ||//
-		parent instanceof LogicOr) {
+		if (parent->instanceof<LessEqual>() || //
+		parent->instanceof<Less>() ||//
+		parent->instanceof<Greater>() ||//
+		parent->instanceof<GreaterEqual>() ||//
+		parent->instanceof<Equal>() ||//
+		parent->instanceof<Unequal>() ||//
+		parent->instanceof<Contains>() ||//
+		parent->instanceof<NotContains>() ||//
+		parent->instanceof<LogicNot>() ||//
+		parent->instanceof<LogicAnd>() ||//
+		parent->instanceof<LogicOr>()) {
 			self = parent;
 			break;
 		}
 
-		if (parent instanceof Sentence || //
-		parent instanceof Parenthesis ||//
-		parent instanceof IfElse ||//
-		parent instanceof Set ||//
-		parent instanceof Tuple ||//
-		parent instanceof Indexed ||//
-		parent instanceof FunctionCall) {
+		if (parent->instanceof<Sentence>() || //
+		parent->instanceof<Parenthesis>() ||//
+		parent->instanceof<IfElse>() ||//
+		parent->instanceof<Set>() ||//
+		parent->instanceof<Tuple>() ||//
+		parent->instanceof<Indexed>() ||//
+		parent->instanceof<FunctionCall>()) {
 			break;
 		}
 
-		if (parent instanceof GeneratorIf && parent->cond === self) {
+		if (parent->instanceof<GeneratorIf>() && parent->cond == self) {
 			break;
 		}
 
@@ -278,11 +299,11 @@ PyObject* PyObject::append_keyword_if() {
 	auto self = this;
 
 	for (;;) {
-		parent = self->parent;
-		if (parent instanceof Generator) {
+		auto parent = self->parent;
+		if (parent->instanceof<Generator>()) {
 			self = parent;
 			parent = self->parent;
-			caret = new Caret();
+			auto caret = new Caret();
 
 			class = get_class(self) . "If";
 			new = new class(self->expr, self->var, self->domain, caret,
@@ -290,13 +311,13 @@ PyObject* PyObject::append_keyword_if() {
 			break;
 		}
 		// in the form {expr if cond else other}
-		if (parent instanceof Set || //
-		parent instanceof Parenthesis ||//
-		parent instanceof ArrayList ||//
-		parent instanceof Tuple ||//
-		parent instanceof FunctionCall ||//
-		parent instanceof Indexed ||//
-		parent instanceof Sentence) {
+		if (parent->instanceof<Set>() || //
+		parent->instanceof<Parenthesis>() ||//
+		parent->instanceof<ArrayList>() ||//
+		parent->instanceof<Tuple>() ||//
+		parent->instanceof<FunctionCall>() ||//
+		parent->instanceof<Indexed>() ||//
+		parent->instanceof<Sentence>()) {
 			caret = new Caret();
 			other = new Caret();
 			new = new IfElse(self, caret, other, parent);
@@ -319,8 +340,8 @@ PyObject* PyObject::append_keyword_else() {
 
 	for (;;) {
 		parent = self->parent;
-		if (parent instanceof IfElse) {
-			if (self === parent->cond) {
+		if (parent->instanceof<IfElse>()) {
+			if (self == parent->cond) {
 				return parent->other;
 			}
 			throw std::runtime_error("illegal this in else statement ");
@@ -343,7 +364,7 @@ PyObject* PyObject::append_keyword_is() {
 
 	for (;;) {
 		parent = self->parent;
-		if (parent instanceof Dot) {
+		if (parent->instanceof<Dot>()) {
 			self = parent;
 			continue;
 		}
@@ -361,7 +382,7 @@ PyObject* PyObject::append_keyword_not() {
 
 	for (;;) {
 		parent = self->parent;
-		if (parent instanceof Dot) {
+		if (parent->instanceof<Dot>()) {
 			self = parent;
 			continue;
 		}
@@ -380,11 +401,11 @@ PyObject* PyObject::append_keyword_async() {
 
 	do {
 		parent = self->parent;
-		if (parent instanceof Parenthesis || parent instanceof FunctionCall || parent instanceof ArrayList || parent instanceof Set) {
+		if (parent->instanceof<Parenthesis>() || parent->instanceof<FunctionCall>() || parent->instanceof<ArrayList>() || parent->instanceof<Set>()) {
 
-			domain = new Caret();
-			var = new Caret();
-			generator = new GeneratorAsync(self, var, domain, parent);
+			auto domain = new Caret();
+			auto var = new Caret();
+			auto generator = new GeneratorAsync(self, var, domain, parent);
 			parent->replace(self, generator);
 			return var;
 		} else {
@@ -404,20 +425,20 @@ PyObject* PyObject::append_identifier(const string &name) {
 		return (*fptr[name]);
 	} else {
 
-		if (Literal::is_literal_prefix (name)) {
-			literal = new Literal(name);
-			parent = this->parent;
-			if (parent instanceof Literals) {
-				parent->args[] = literal;
+		if (Literal::is_literal_prefix(name)) {
+			auto literal = new Literal(name);
+			auto parent = this->parent;
+			if (parent->instanceof<Literals>()) {
+				parent->args.push_back(literal);
 				literal->parent = parent;
 			} else {
 
-				new = new Literals([
+				auto $new = new Literals({
 						this,
 						literal
-						], parent);
+				}, parent);
 
-				parent->replace(this, new);
+				parent->replace(this, $new);
 			}
 			return literal;
 		}
@@ -427,16 +448,12 @@ PyObject* PyObject::append_identifier(const string &name) {
 }
 
 void PyObject::replace(PyObject *old, PyObject *$new){
-
-}
-
-string PyObject::type(){
-	return "PyObject";
-}
-
-bool PyObject::instanceof(const string &type){
-	return this->type() == type;
 }
 
 PyObject::~PyObject(){
+}
+
+
+PyObject* PyObject::newCaret(){
+	return new Caret();
 }

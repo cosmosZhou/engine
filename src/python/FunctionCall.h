@@ -17,9 +17,8 @@ struct FunctionCall: MultiVariableOperator {
 
 	string toString() {
 		ostringstream cout;
-		cout << name << "(" << join(", ", array_map([](PyObject *obj) {
-			return obj->toString();
-		}, args)) << this->arg << ")";
+		cout << name << "(" << join(", ", array_map(&PyObject::toString, args)) << ")";
+
 		return cout.str();
 	}
 
@@ -27,7 +26,7 @@ struct FunctionCall: MultiVariableOperator {
 		if (old == this->name) {
 			this->name = $new;
 		} else {
-			__super::replace(old, $new);
+			MultiVariableOperator::replace(old, $new);
 		}
 	}
 };

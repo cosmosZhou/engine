@@ -12,50 +12,32 @@ struct Generator : PyObject
 
 	PyObject *expr;
 
-    function __construct($expr, $var, $domain, $parent)
+	Generator(PyObject *expr, PyObject *var, PyObject *domain, PyObject *parent): PyObject(parent), var(var), domain(domain), expr(expr)
     {
-        $this->expr = $expr;
-        $this->var = $var;
-        $this->domain = $domain;
-
-        $var->parent = $this;
-        $expr->parent = $this;
-        $domain->parent = $this;
-
-        $this->parent = $parent;
+        var->parent = this;
+        expr->parent = this;
+        domain->parent = this;
     }
 
     void replace(PyObject *old, PyObject *$new)
     {
-        if ($old === $this->expr) {
-            $this->expr = $new;
-        } else if ($old === $this->var) {
-            $this->var = $new;
-        } else if ($old === $this->domain) {
-            $this->domain = $new;
+        if (old == this->expr) {
+            this->expr = $new;
+        } else if (old == this->var) {
+            this->var = $new;
+        } else if (old == this->domain) {
+            this->domain = $new;
         } else
             throw std::runtime_error("void replace(TreeNode old, TreeNode replacement) throws Exception");
     }
 
+
     string toString()
     {
-        return "$this->expr for $this->var in $this->domain";
+    	ostringstream cout;
+    	cout << this->expr->toString() << " for " << this->var->toString() << " in " << this->domain->toString();
+    	return cout.str();
     }
 
-    function append_comma($child)
-    {
-        if ($child === $this->var) {
-
-            $caret = new Caret();
-            $comma = new Comma([
-                $this->var,
-                $caret
-            ], $this);
-            $this->replace($this->var, $comma);
-            return $caret;
-        } else {
-            throw std::runtime_error("illegal $child in $this for append_comma");
-        }
-    }
-}
-;
+    PyObject *append_comma(PyObject *child);
+};

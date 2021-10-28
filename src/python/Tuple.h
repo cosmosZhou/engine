@@ -7,12 +7,12 @@ struct Tuple : MultiVariableOperator
 
     string toString()
     {
-        return "(" . implode(", ", array_map(fn ($node) => $node->toString(), $this->args)) . ")";
+        return "(" + join(", ", array_map(&PyObject::toString, this->args)) + ")";
     }
 
-    function append_right_parenthesis()
+    PyObject *append_right_parenthesis()
     {
-        return $this;
+        return this;
     }
-}
-;
+
+};

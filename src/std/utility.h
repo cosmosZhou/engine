@@ -1413,12 +1413,12 @@ string dirname(const string &path);
 
 
 template<typename X, typename Y>
-vector<Y> array_map(Y (*f)(X), vector<X> &x){
+vector<Y> array_map(Y (X::*f)(), vector<X*> &x){
 	int size = x.size();
 	vector<Y> y(size);
 
 	for (int i = 0; i < size; ++i) {
-		y[i] = f(x[i]);
+		y[i] = (x[i]->*f)();
 	}
 	return y;
 }
